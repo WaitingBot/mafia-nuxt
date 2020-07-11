@@ -6,7 +6,6 @@
               :user_num="card.user_num"
     />
 
-    <b-button @click="generateDeck">click</b-button>
   </div>
 </template>
 
@@ -63,7 +62,15 @@ export default {
 
       this.deck = newDeck
     }
+  },
+
+  mounted() {
+    this.$root.$on('shuffleDeck', () => {
+      this.generateDeck()
+    })
   }
+
+
 }
 </script>
 

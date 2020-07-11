@@ -14,7 +14,7 @@
     />
 
 
-    <b-button style="margin-top: 60px;">Распределить роли</b-button>
+    <b-button @click="shuffle" style="margin-top: 60px;">Распределить роли</b-button>
 
   </div>
 </template>
@@ -31,6 +31,12 @@ export default {
 
   data() {
     return {
+    }
+  },
+
+  methods: {
+    shuffle() {
+      this.$root.$emit('shuffleDeck')
     }
   },
 
