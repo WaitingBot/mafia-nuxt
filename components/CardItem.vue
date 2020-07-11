@@ -1,8 +1,8 @@
 <template>
   <div class="card" :class="classFromName(name) ">
     <div class="name">
-      {{name}}
-      {{user_num}}
+      <div>Игрок {{user_num}}</div>
+      <div>{{name}}</div>
     </div>
   </div>
 </template>
@@ -38,8 +38,8 @@ export default {
 .name {
   text-align: center;
   vertical-align: middle;
-  line-height: 175px;
 }
+
 
 .mafia {
   background-color: darkred;
