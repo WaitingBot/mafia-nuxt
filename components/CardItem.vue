@@ -1,8 +1,8 @@
 <template>
-  <div class="card" :class="classFromName(name) ">
+  <div class="card" :class="classFromName(name, activated)">
     <div class="name">
       <div>Игрок {{user_num}}</div>
-      <div>{{name}}</div>
+      <div>{{activated ? name : 'Нет роли'}} </div>
     </div>
   </div>
 </template>
@@ -12,11 +12,16 @@ export default {
   name: "CardItem",
   props: {
     name: String,
-    user_num: Number
+    user_num: Number,
+    activated: Boolean
   },
 
   methods: {
-    classFromName(nameCl) {
+    classFromName(nameCl, activation) {
+      if (!activation) {
+        return 'unactivated'
+      }
+
       if (nameCl === 'Мафия') return 'mafia'
       return ''
     }
@@ -44,6 +49,10 @@ export default {
 .mafia {
   background-color: darkred;
   color: #ffffff;
+}
+
+.unactivated {
+  background-color: #F2F2F2;
 }
 
 </style>

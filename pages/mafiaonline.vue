@@ -6,20 +6,22 @@
 
         <h1>Комната: </h1>
         <div class="room-number">
-          <nuxt-link to="/mafiaonline">в онлайн режим</nuxt-link>
+          <span>65BE</span>
         </div>
+
+        <span><nuxt-link to="/mafia">в режим ведущего</nuxt-link></span>
 
       </div>
     </b-row>
 
 
     <b-row>
-        <b-col lg="8">
-          <CardList />
-        </b-col>
-        <b-col lg="4">
-          <Control />
-        </b-col>
+      <b-col lg="8">
+        <CardList />
+      </b-col>
+      <b-col lg="4">
+        <Control />
+      </b-col>
     </b-row>
 
   </div>
@@ -34,6 +36,27 @@ export default {
   components: {
     CardList,
     Control
+  },
+
+  mounted() {
+    this.socket = this.$nuxtSocket({
+      channel: '/index'
+    })
+    /* Listen for events: */
+    this.socket
+      .on('someEvent', (msg, cb) => {
+        /* Handle event */
+      })
+  },
+  methods: {
+    method1() {
+      /* Emit events */
+      this.socket.emit('method1', {
+        hello: 'world'
+      }, (resp) => {
+        /* Handle response, if any */
+      })
+    }
   }
 }
 </script>

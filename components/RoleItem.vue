@@ -26,22 +26,28 @@ export default {
 
 
   methods: {
-    ...mapMutations(['MINUS_USERSCOUNT', 'PLUS_USERSCOUNT']),
 
     minusNumber() {
       if(this.roleNumber > 0) {
-        this.MINUS_USERSCOUNT(1)
-        this.$store.commit('UPDATE_ROLE_NUMBER', {
+        const changes = {
           name: this.roleName,
-          num: -1})
-      }
+          num: -1
+        }
+
+        this.$root.$emit('updateDeckCard', changes)
+        this.$store.commit('UPDATE_ROLE_NUMBER', changes)
+        }
       },
 
+
     plusNumber() {
-      this.PLUS_USERSCOUNT(1)
-      this.$store.commit('UPDATE_ROLE_NUMBER', {
+      const changes = {
         name: this.roleName,
-        num: 1})
+        num: 1
+      }
+
+      this.$root.$emit('updateDeckCard', changes)
+      this.$store.commit('UPDATE_ROLE_NUMBER', changes)
     }
 
     },

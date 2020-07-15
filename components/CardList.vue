@@ -4,6 +4,7 @@
               :key="index"
               :name="card.name"
               :user_num="card.user_num"
+              :activated="card.activated"
     />
 
   </div>
@@ -12,8 +13,9 @@
 <script>
 import CardItem from './CardItem';
 
-function shuffle(arr){
+function shuffle(array){
   let j, temp;
+  const arr = [...array]
   for(let i = arr.length - 1; i > 0; i--){
     j = Math.floor(Math.random()*(i + 1));
     temp = arr[j];
@@ -35,40 +37,47 @@ export default {
 
   methods: {
     generateDeck() {
-      const allCards = this.roles
+      const allCards = this.$store.state.roles
       let newDeck = []
       let number = 1
       allCards.forEach(role => {
         for (let i = 0; i < role.number; i++) {
           newDeck.push({
             name: role.name,
-            user_num: number
+            user_num: number,
+            activated: true
           })
 
           number += 1
         }
       })
-      this.deck = newDeck
+      this.deck = [...newDeck]
     },
 
     shuffleDeck() {
-      let newDeck = shuffle(this.deck)
-      console.log('worked')
+      let copy = JSON.parse(JSON.stringify(this.deck))
 
-      // if (newDeck.length === this.deck.length) {
-      for (let i = 0; i< newDeck.length; i++) {
-        newDeck[i].user_num = this.deck[i].user_num
+      const allRoles = shuffle(copy)
+
+      this.deck.map((x, index) => {
+        x.user_num = index + 1
+        x.name = allRoles[index].name
+        x.activated = true
+        return x
+      })
+
+      this.deck = this.deck.slice()
+    },
+
+    updateDeck(changes) {
+      if(changes.num > 0) {
+        changes.user_num = this.deck.length + 1
+        changes.activated = false
+        this.deck.push(changes)
+      } else {
+        const index = this.deck.map(card => {return card.name}).indexOf(changes.name);
+        this.deck.splice(index, 1);
       }
-      // } else {
-      //   let number = 1
-      //   for (let i = 0; i< newDeck.length; i++) {
-      //     newDeck[i].user_num = number
-      //     number += 1
-      //   }
-      // }
-
-      this.deck = newDeck
-      console.log(this.deck)
     }
 
   },
@@ -76,17 +85,17 @@ export default {
   mounted() {
     this.generateDeck()
     this.shuffleDeck()
+
     this.$root.$on('shuffleDeck', () => {
       this.shuffleDeck()
     })
-  },
 
-  computed: {
-    roles() {
-      console.log('Change role number')
-      return this.$store.state.roles
-    }
-  }
+    this.$root.$on('updateDeckCard', (changes) => {
+      this.updateDeck(changes)
+    })
+
+
+  },
 
 
 }

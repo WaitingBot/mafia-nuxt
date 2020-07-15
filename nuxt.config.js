@@ -55,7 +55,29 @@ export default {
   modules: [
     // Doc: https://bootstrap-vue.js.org
     'bootstrap-vue/nuxt',
+    'nuxt-socket-io'
   ],
+
+  io: {
+    // module options
+    sockets: [{
+      name: 'main',
+      url: 'http://localhost:3000/mafiaonline',
+      vuex: {
+        mutations: [{ progress: 'examples/SET_PROGRESS' }],
+        actions: [{ chatMessage: 'FORMAT_MESSAGE' }],
+        emitBacks: [
+          'examples/someObj',
+          'examples/sample',
+          { 'examples/sample2': 'sample2' },
+          'titleFromUser'
+        ]
+      }
+    }]
+  },
+
+
+
   /*
   ** Build configuration
   ** See https://nuxtjs.org/api/configuration-build/

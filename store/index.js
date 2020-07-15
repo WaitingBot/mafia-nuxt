@@ -30,14 +30,8 @@ export const mutations = {
     state.usersCount = initCount
   },
 
-  PLUS_USERSCOUNT(state, number) {
-    state.usersCount = state.usersCount + number
-  },
-  MINUS_USERSCOUNT(state, number) {
-    state.usersCount = state.usersCount - number
-  },
-
   UPDATE_ROLE_NUMBER(state, payload) {
     state.roles.find(role => role.name === payload.name).number += payload.num
+    state.usersCount += payload.num
   }
 }
